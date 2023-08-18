@@ -3,7 +3,7 @@ public class Main {
 
 
         System.out.println("Hello world!");
-        int[] x = {3,3,5,0,3,1,4};
-        System.out.println(Stocks3.maxProfit(x,7));
+        int[] x = {1, 5, 11, 14, 17, 13, 8, 9, 9, 13 };
+        System.out.println(Stocks3.maxProfit(x));
     }
 }
