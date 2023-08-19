@@ -35,4 +35,39 @@ public class Stocks1 {
         }
         return dp[0][1];
     }
+
+    public static long getMaximumProfitO1 (int n, long[] values) {
+        // Your code goes here.
+
+        long[] ahead = new long[2];
+        long[] curr = new long[2];
+
+
+        for (int ind = n - 1; ind >= 0; ind--)
+        {
+            curr[1] = Math.max(-values[ind] + ahead[0], ahead[1]);
+
+            curr[0] = Math.max(values[ind]  + ahead[1], ahead[0]);
+
+            ahead = curr;
+        }
+        return curr[1];
+    }
+
+    public static long getMaximumProfitO2 (int n, long[] values) {
+        // Your code goes here.
+       long aheadBuy, aheadNotBuy,currBuy,currNotBuy;
+       aheadBuy =aheadNotBuy =0;
+
+        for (int ind = n - 1; ind >= 0; ind--)
+        {
+            currBuy = Math.max(-values[ind] + aheadNotBuy, aheadBuy);
+
+            currNotBuy = Math.max(values[ind]  + aheadBuy, aheadNotBuy);
+
+            aheadBuy = currBuy;
+            aheadNotBuy = currNotBuy;
+        }
+        return aheadBuy;
+    }
 }
