@@ -99,4 +99,93 @@ public class Stocks3 {
         }
         return  dp[ind][buy][count] = profit;
     }
+
+
+    public static  int maxProfit2Optimized(int[] prices){
+        int n = prices.length;
+
+        int[] after = new int[5];
+        int[] curr = new int[5];
+
+
+        for(int ind = 0 ; ind <= n; ind++){
+            after[4] =0;
+        }
+
+        for(int transaction =0 ; transaction <=4; transaction++){
+            after[transaction] = 0;
+        }
+
+        for(int ind =n-1 ; ind >= 0; ind--){
+            for(int transaction = 3; transaction>=0; transaction--){
+
+                if(transaction % 2 == 0 ){
+                    //Buy
+                    curr[transaction]= Math.max(-prices[ind] + after[ transaction+1],after[ transaction]);
+
+                }
+                else{
+                    //sell
+                    curr[transaction]=  Math.max(prices[ind] + after[ transaction+1],after[ transaction]);
+                }
+            }
+            after = curr;
+        }
+
+        return  after[0];
+
+    }
+
+    public static  int maxProfit2(int[] prices){
+        int n = prices.length;
+        int[][] dp = new int[n+1][5];
+
+
+        for(int ind = 0 ; ind <= n; ind++){
+            dp[ind][4] =0;
+        }
+
+        for(int transaction =0 ; transaction <=4; transaction++){
+            dp[n][transaction] = 0;
+        }
+
+        for(int ind =n-1 ; ind >= 0; ind--){
+            for(int transaction = 3; transaction>=0; transaction--){
+
+                if(transaction % 2 == 0 ){
+                    //Buy
+                    dp[ind][transaction]= Math.max(-prices[ind] + dp[ind+1][ transaction+1],dp[ind+1][ transaction]);
+
+                }
+                else{
+                    //sell
+                    dp[ind][transaction]=  Math.max(prices[ind] + dp[ind+1][ transaction+1],dp[ind+1][ transaction]);
+                }
+            }
+        }
+
+        return  dp[0][0];
+
+    }
+   //Here transaction is 1 buy or 1 sell
+    private  static  int maxProfit2Util(int ind , int transaction, int[] prices , int[][]dp){
+        if(ind == prices.length || transaction == 4){
+            return  0;
+        }
+
+        if(dp[ind][transaction] != -1){
+            return  dp[ind][transaction];
+        }
+
+        if(transaction % 2 == 0 ){
+            //Buy
+           return Math.max(-prices[ind] + maxProfit2Util(ind+1, transaction+1,prices, dp),maxProfit2Util(ind+1, transaction,prices, dp));
+
+        }
+        else{
+            //sell
+            return Math.max(prices[ind] + maxProfit2Util(ind+1, transaction+1,prices, dp),maxProfit2Util(ind+1, transaction,prices, dp));
+        }
+
+    }
 }
