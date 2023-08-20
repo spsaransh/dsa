@@ -15,7 +15,7 @@ public class LongestUniqueSubString {
             if(map.containsKey(ch[we])){
                 int charValue = map.get(ch[we]);
                 // check if this value exists in between the window
-                if(charValue >= ws && charValue<= we) {
+                if(charValue >= ws) {
                     //windowstart should move to the  previous value of ch in map
                     ws = charValue + 1;
                 }
